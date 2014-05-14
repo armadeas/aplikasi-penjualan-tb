@@ -11,9 +11,11 @@ import net.smktarunabhakti.penjualan.domain.Barang;
 import net.smktarunabhakti.penjualan.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -33,22 +35,31 @@ public class AppServiceImpl implements AppService{
     
     @Override
     public void hapusBarang(Barang b) {
-
+        if(b==null || b.getId()==null){
+            return;        
+        }
+        barangDao.delete(b);
     }
 
     @Override
     public Page<Barang> cariSemuaBarang(Pageable p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(p == null){
+            p = new PageRequest(0, 20);
+        }
+        return barangDao.findAll(p);
     }
 
     @Override
     public Barang cariBarangById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!StringUtils.hasText(id)){
+            return null;
+        }
+        return barangDao.findOne(id);
     }
 
     @Override
     public Long countSemuaBarang() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return barangDao.count();
     }
     
 }
