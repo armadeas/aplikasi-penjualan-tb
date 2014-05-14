@@ -39,4 +39,5 @@ public class PenjualanDetail implements Serializable{
     
     @Column(name = "total_harga")
     private BigDecimal totalHarga;
+    
 }
